@@ -2,3 +2,9 @@
 
  -- watch tailwindcss --
 npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
+
+
+-- add database migration --
+Add-Migration InitialCreate -OutputDir Infrastructure/Database/Migrations
+
+Update-Database
