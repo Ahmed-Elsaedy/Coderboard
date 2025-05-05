@@ -1,6 +1,6 @@
 ﻿using Codeboard.Api.Framework.Interfaces;
 
-namespace Codeboard.Api.Endpoints.Students.GetStudents
+namespace Codeboard.Api.Features.Students.GetStudents
 {
     public class GetStudents : IEndpoint
     {

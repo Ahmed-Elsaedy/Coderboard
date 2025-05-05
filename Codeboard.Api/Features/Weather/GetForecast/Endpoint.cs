@@ -1,6 +1,6 @@
 ﻿using Codeboard.Api.Framework.Interfaces;
 
-namespace Codeboard.Api.Endpoints.Weather.GetForecast
+namespace Codeboard.Api.Features.Weather.GetForecast
 {
     public class GetForecast : IEndpoint
     {
