@@ -1,3 +1,4 @@
+using Codeboard.Api.Domain;
 using Codeboard.Api.Framework.Extenstions;
 using Codeboard.Api.Infrastructure.Database;
 using FluentValidation;
@@ -5,12 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityApiEndpoints<SystemUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddOpenApi();
+
 builder.Services.AddEndpoints(typeof(Program).Assembly);
+
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 var app = builder.Build();
@@ -25,7 +32,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
-//app.MapControllers();
+
+app.MapIdentityApi<SystemUser>();
+
 app.MapEndpoints();
+
 app.Run();

@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>645f8613-8b51-4c7d-a1f8-b51913d7f07b</UserSecretsId>
   </PropertyGroup>
@@ -11,8 +10,12 @@
     <Folder Include="HttpClients\" />
   </ItemGroup>
 
-  <Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+  </ItemGroup>
+
+  <!--<Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
     <Exec Command="dotnet nswag run nswag.json" />
-  </Target>
+  </Target>-->
 
 </Project>

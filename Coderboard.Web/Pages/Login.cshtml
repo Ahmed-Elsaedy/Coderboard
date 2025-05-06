@@ -1,0 +1,38 @@
+﻿@page
+@model Coderboard.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+    <h2>Login</h2>
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div>
+            <label>Email:</label>
+            <input asp-for="Input.Email" />
+            <span asp-validation-for="Input.Email"></span>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input asp-for="Input.Password" type="password" />
+            <span asp-validation-for="Input.Password"></span>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+        <div>
+            <span asp-validation-summary="All"></span>
+        </div>
+    </form>
+
+</body>
+</html>
+

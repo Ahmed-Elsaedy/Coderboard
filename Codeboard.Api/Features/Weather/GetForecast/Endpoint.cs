@@ -1,4 +1,6 @@
-﻿using Codeboard.Api.Framework.Interfaces;
+﻿using Codeboard.Api.Domain;
+using Codeboard.Api.Framework.Interfaces;
+using Codeboard.Api.Infrastructure.Database;
 
 namespace Codeboard.Api.Features.Weather.GetForecast
 {
@@ -9,21 +11,18 @@ namespace Codeboard.Api.Features.Weather.GetForecast
             var weatherApi = app.MapGroup("/weather")
                 .WithTags("Weather");
 
-            weatherApi.MapGet("/", () =>
+            weatherApi.MapGet("/", (HttpContext httpContext) =>
             {
-                var Summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+                var userClaims = httpContext.User.Claims.Select(c => new
+                {
+                    c.Type,
+                    c.Value
+                });
 
-                var forecasts = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                    }).ToArray();
-
-                return forecasts;
+                return Results.Ok(userClaims);
             })
-            .WithName("GetWeatherForecast");
+            .WithName("GetWeatherForecast")
+            .RequireAuthorization();
         }
     }
 }

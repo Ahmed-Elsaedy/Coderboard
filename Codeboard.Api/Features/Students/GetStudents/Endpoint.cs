@@ -1,4 +1,5 @@
 ﻿using Codeboard.Api.Framework.Interfaces;
+using Codeboard.Api.Infrastructure.Database;
 
 namespace Codeboard.Api.Features.Students.GetStudents
 {
@@ -9,7 +10,7 @@ namespace Codeboard.Api.Features.Students.GetStudents
             var studentApi = app.MapGroup("/student")
                 .WithTags("Student");
 
-            studentApi.MapGet("/", () =>
+            studentApi.MapGet("/", (ApplicationDbContext db) =>
             {
                 var Summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
 
