@@ -5,7 +5,7 @@
     "fromDocument": {
       "url": null,
       "output": null,
-      "json": "C:\\Users\\Ahmed\\source\\repos\\Coderboard\\Codeboard.Api\\Codeboard.Api.json"
+      "json": "..\\Codeboard.Api\\Codeboard.Api.json"
     }
   },
   "codeGenerators": {

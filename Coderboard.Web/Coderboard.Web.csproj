@@ -14,8 +14,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>
 
-  <!--<Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet nswag run nswag.json" />
-  </Target>-->
+  <Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
+    <Exec Command="dotnet nswag run nswag.json" StandardOutputImportance="high"/>
+  </Target>
 
 </Project>
