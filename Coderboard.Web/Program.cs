@@ -1,8 +1,12 @@
+using Coderboard.Clients;
+using Coderboard.Web.Framework;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRazorPages();
 
@@ -20,7 +24,13 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpClient("ApiClient", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7251");
-});
+})
+.AddHttpMessageHandler<AccessTokenHandler>();
+
+builder.Services.AddTransient<AccessTokenHandler>();
+
+builder.Services.AddHttpClient<IdentityClient>("ApiClient");
+builder.Services.AddHttpClient<WeatherClient>("ApiClient");
 
 var app = builder.Build();
 

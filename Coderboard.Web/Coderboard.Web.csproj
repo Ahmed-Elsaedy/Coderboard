@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet nswag run nswag.json" StandardOutputImportance="high"/>
+    <Exec Command="dotnet nswag run nswag.json" StandardOutputImportance="high" />
   </Target>
 
 </Project>

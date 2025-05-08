@@ -1,3 +1,4 @@
+using Coderboard.Clients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,31 +10,21 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly IConfiguration _config;
+    private readonly WeatherClient _weatherClient;
 
-
-    public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
+    public IndexModel(ILogger<IndexModel> logger, IConfiguration config, WeatherClient weatherClient)
     {
         _logger = logger;
         _config = config;
+        _weatherClient = weatherClient;
     }
+
+    public List<WeatherForecast> Data { get; set; }
 
     public async Task<IActionResult> OnGetAsync()
     {
-
-        //var authCookie = Request.Cookies["Identity"];
-
-        //var client = new HttpClient();
+        Data = (await _weatherClient.GetWeatherForecastAsync()).ToList();
         
-        //client.DefaultRequestHeaders.Add("Cookie", authCookie);
-        
-        //var response = await client.GetAsync($"{_config["ApiBaseUrl"]}/weather");
-        
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return new JsonResult(content);
-        //}
-
         return Page();
     }
 }

@@ -1,6 +1,10 @@
 ﻿@page
 @model Coderboard.Web.Pages.IndexModel
 
+@{
+
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,5 +12,13 @@
 </head>
 <body>
     <h1>Hello World</h1>
+
+    <ul>
+        @foreach (var item in Model.Data)
+        {
+            <li>@item.Date.ToString() : @item.Summary</li>
+        }
+    </ul>
+
 </body>
 </html>

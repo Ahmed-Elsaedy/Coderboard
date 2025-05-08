@@ -1,7 +1,9 @@
 using Coderboard.Clients;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
+using System.Security.Claims;
 
 namespace Coderboard.Web.Pages;
 
@@ -22,47 +24,28 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        //if (!ModelState.IsValid)
-        //    return Page();
+        if (!ModelState.IsValid)
+            return Page();
 
-        //using var client = new HttpClient();
-
-        //var options = new JsonSerializerOptions
-        //{
-        //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        //};
-
-        //var response = await client.PostAsJsonAsync($"{_config["ApiBaseUrl"]}/identity/login", Input, options);
-
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //    return Page();
-        //}
-        //else
-        //{
-
-        //}
-
-        try
+        var loginResult = await _identityClient.LoginAsync(new LoginRequest()
         {
-            var loginResult = await _identityClient.LoginAsync(new LoginRequest()
-            {
-                Email = Input.Email,
-                Password = Input.Password
-            });
+            Email = Input.Email,
+            Password = Input.Password
+        });
 
-        }
-        catch (ApiException ex)
-        {
+        Response.Cookies.Append("AccessToken", loginResult.AccessToken);
+        Response.Cookies.Append("RefreshToken", loginResult.RefreshToken);
 
-            var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(ex.Response, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+        List<Claim> claims = [
+                new(ClaimTypes.Name, Input.Email),
+                new(ClaimTypes.Role, "Admin")
+        ];
 
-            throw;
-        }
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
         return RedirectToPage("/Index");
     }
 }
