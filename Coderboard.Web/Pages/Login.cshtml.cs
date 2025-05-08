@@ -1,6 +1,6 @@
 using Coderboard.Clients;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
@@ -11,7 +11,6 @@ public class LoginModel : PageModel
 {
     private readonly IConfiguration _config;
     private readonly IdentityClient _identityClient;
-
     public LoginModel(IHttpClientFactory httpClientFactory, IConfiguration config)
 
     {
