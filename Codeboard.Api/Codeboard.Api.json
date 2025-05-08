@@ -240,7 +240,7 @@
         "tags": [
           "Identity"
         ],
-        "operationId": "IdentityManage2fa",
+        "operationId": "Twofa",
         "requestBody": {
           "content": {
             "application/json": {

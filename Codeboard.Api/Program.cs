@@ -29,9 +29,7 @@ builder.Services.AddOpenApi(options =>
     {
         var path = context.Description.RelativePath;
         if(path == "identity/manage/2fa")
-        {
-            operation.OperationId = "IdentityManage2fa";
-        }
+            operation.OperationId = "Twofa";
         
         return Task.CompletedTask;
     });
