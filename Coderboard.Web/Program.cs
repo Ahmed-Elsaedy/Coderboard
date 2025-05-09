@@ -23,8 +23,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 
-    // Optionally: allow changing culture via ?culture=xx&ui-culture=xx
-    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+    options.AddInitialRequestCultureProvider(new CustomRequestCultureProvider(async context =>
+    {
+        var cultureFromCookie = context.Request.Cookies["Culture"];
+        return await Task.FromResult(new ProviderCultureResult(string.IsNullOrEmpty(cultureFromCookie) ? "en" : cultureFromCookie));
+    }));
 });
 
 builder.Services.AddRazorPages()

@@ -1,7 +1,7 @@
 
 
  -- watch tailwindcss --
-npx @tailwindcss/cli -i ./ClientApp/css/tailwind-input.css -o ./wwwroot/css/tailwind-output.css --watch
+npx @tailwindcss/cli -i ./ClientApp/css/tailwind-input.css -o ./wwwroot/css/tailwind-output.css --config ./ClientApp/tailwind.config.js --watch
 
 
 -- add database migration --
