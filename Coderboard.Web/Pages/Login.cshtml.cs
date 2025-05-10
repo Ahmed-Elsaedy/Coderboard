@@ -1,8 +1,10 @@
 using Coderboard.Clients;
+using Coderboard.Web.Resources;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace Coderboard.Web.Pages;
@@ -19,7 +21,16 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    public LoginDto Input { get; set; } = new();
+    [Required(ErrorMessageResourceName = nameof(DataValidations.Required), ErrorMessageResourceType = typeof(DataValidations))]
+    [DataType(DataType.EmailAddress)]
+    [Display(Name = nameof(DataDisplay.Pages_LoginModel_Email), ResourceType = typeof(DataDisplay))]
+    public string Email { get; set; }
+
+    [BindProperty]
+    [DataType(DataType.Password)]
+    [Required(ErrorMessageResourceName = nameof(DataValidations.Required), ErrorMessageResourceType = typeof(DataValidations))]
+    [Display(Name = nameof(DataDisplay.Pages_LoginModel_Password), ResourceType = typeof(DataDisplay))]
+    public string Password { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -28,15 +39,15 @@ public class LoginModel : PageModel
 
         var loginResult = await _identityClient.LoginAsync(new LoginRequest()
         {
-            Email = Input.Email,
-            Password = Input.Password
+            Email = Email,
+            Password = Password
         });
 
         Response.Cookies.Append("AccessToken", loginResult.AccessToken);
         Response.Cookies.Append("RefreshToken", loginResult.RefreshToken);
 
         List<Claim> claims = [
-                new(ClaimTypes.Name, Input.Email),
+                new(ClaimTypes.Name, Email),
                 new(ClaimTypes.Role, "Admin")
         ];
 
@@ -47,10 +58,4 @@ public class LoginModel : PageModel
 
         return RedirectToPage("/Index");
     }
-}
-
-public class LoginDto
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
 }

@@ -16,6 +16,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\DataDisplay.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataDisplay.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\DataValidations.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataValidations.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Pages\LoginModel.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,6 +34,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\DataDisplay.resx">
+      <Generator>publicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataDisplay.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\DataValidations.resx">
+      <Generator>publicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataValidations.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Pages\LoginModel.resx">
       <Generator>publicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginModel.Designer.cs</LastGenOutput>

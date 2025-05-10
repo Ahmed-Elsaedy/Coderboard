@@ -1,5 +1,6 @@
 using Coderboard.Clients;
 using Coderboard.Web.Framework;
+using Coderboard.Web.Resources;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
