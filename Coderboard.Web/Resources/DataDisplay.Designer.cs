@@ -61,7 +61,7 @@ namespace Coderboard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to df.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Pages_LoginModel_Email {
             get {
@@ -70,7 +70,7 @@ namespace Coderboard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to sdfsd.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Pages_LoginModel_Password {
             get {

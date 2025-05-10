@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Pages.LoginModel.Email" xml:space="preserve">
-    <value>df</value>
+    <value>Email</value>
   </data>
   <data name="Pages.LoginModel.Password" xml:space="preserve">
-    <value>sdfsd</value>
+    <value>Password</value>
   </data>
 </root>

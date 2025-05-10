@@ -5,7 +5,7 @@
     const newLang = currentLang === 'ar' ? 'en' : 'ar';
 
     // Set the cookie for ASP.NET Core culture
-    document.cookie = `culture=${newLang}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year expiration
+    document.cookie = `Culture=${newLang}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year expiration
 
     // Reload the page to apply new culture
     location.reload();
