@@ -21,15 +21,15 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    [Required(ErrorMessageResourceName = nameof(DataValidations.Required), ErrorMessageResourceType = typeof(DataValidations))]
     [DataType(DataType.EmailAddress)]
-    [Display(Name = nameof(DataDisplay.Pages_LoginModel_Email), ResourceType = typeof(DataDisplay))]
+    [Required(ErrorMessage = nameof(DataAnnotations.Required))]
+    [Display(Name = nameof(DataAnnotations.Pages_LoginModel_Email))]
     public string Email { get; set; }
 
     [BindProperty]
     [DataType(DataType.Password)]
-    [Required(ErrorMessageResourceName = nameof(DataValidations.Required), ErrorMessageResourceType = typeof(DataValidations))]
-    [Display(Name = nameof(DataDisplay.Pages_LoginModel_Password), ResourceType = typeof(DataDisplay))]
+    [Required(ErrorMessage = nameof(DataAnnotations.Required))]
+    [Display(Name = nameof(DataAnnotations.Pages_LoginModel_Password))]
     public string Password { get; set; }
 
     public async Task<IActionResult> OnPostAsync()

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,20 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddRazorPages()
     .AddViewLocalization()
-    .AddDataAnnotationsLocalization();
+.AddDataAnnotationsLocalization(
+        options =>
+        {
+            options.DataAnnotationLocalizerProvider =
+                (type, factory) =>
+                {
+                    var assemblyName =
+                        new AssemblyName(
+                            typeof(DataAnnotations)
+                                    .GetTypeInfo()
+                                    .Assembly.FullName!);
+                    return factory.Create("DataAnnotations", assemblyName.Name!);
+                };
+        });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
