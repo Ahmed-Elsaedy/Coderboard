@@ -15,28 +15,6 @@
     <script src="~/js/site.js" asp-append-version="true" defer></script>
 </head>
 <body class="h-full bg-gray-50 dark:bg-gray-900">
-
-
-
-    @{
-        var person = new { name = "Ahmed", age = 30 };
-    }
-
-    <handlebars-template id="person-template" model="@person">
-        <div class="person">
-            <h2>{{name}}</h2>
-            <p>{{age}} years old</p>
-        </div>
-    </handlebars-template>
-
-
-
-
-
-
-
-
-
     <!-- Navbar -->
     <header class="backdrop-blur-md bg-white/80 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 right-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

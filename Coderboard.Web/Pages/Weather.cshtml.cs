@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Coderboard.Web.Pages;
 
 [Authorize]
-public class IndexModel : PageModel
+public class WeatherModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly ILogger<WeatherModel> _logger;
     private readonly IConfiguration _config;
     private readonly WeatherClient _weatherClient;
 
-    public IndexModel(ILogger<IndexModel> logger, IConfiguration config, WeatherClient weatherClient)
+    public WeatherModel(ILogger<WeatherModel> logger, IConfiguration config, WeatherClient weatherClient)
     {
         _logger = logger;
         _config = config;

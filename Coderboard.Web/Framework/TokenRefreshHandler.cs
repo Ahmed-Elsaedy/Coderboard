@@ -42,7 +42,7 @@ namespace Coderboard.Web.Framework
             return response;
         }
 
-        private async Task<string?> RefreshTokenAsync()
+        private async Task<string> RefreshTokenAsync()
         {
             var refreshToken = _contextAccessor.HttpContext?.Request.Cookies["RefreshToken"];
             if (string.IsNullOrEmpty(refreshToken))
