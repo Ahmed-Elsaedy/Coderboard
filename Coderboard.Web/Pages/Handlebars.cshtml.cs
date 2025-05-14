@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Coderboard.Web.Pages
 {
-    public class Index2Model : PageModel
+    public class HandlebarsModel : PageModel
     {
         public void OnGet()
         {
