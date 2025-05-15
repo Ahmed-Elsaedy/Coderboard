@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Lecture - LearnDraw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="lectures.html" class="text-xl font-bold text-gray-800">LearnDraw</a>
+                    <span class="ml-4 text-gray-600">Introduction to Geometry</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Prof. Smith</span>
+                    <a href="lectures.html" class="text-gray-600 hover:text-gray-900">Back to Lectures</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <!-- Canvas Display Area -->
+            <div class="aspect-video bg-gray-100 relative">
+                <canvas id="playbackCanvas" class="w-full h-full">
+                </canvas>
+                
+                <!-- Playback Controls -->
+                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <button id="playPause" class="hover:text-blue-400">
+                                ▶️
+                            </button>
+                            <button id="restart" class="hover:text-blue-400">
+                                🔄
+                            </button>
+                            <span id="currentTime" class="font-mono">00:00</span>
+                            <span>/</span>
+                            <span id="duration" class="font-mono">15:00</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button id="slower" class="hover:text-blue-400">
+                                🐢
+                            </button>
+                            <span id="speed">1x</span>
+                            <button id="faster" class="hover:text-blue-400">
+                                🐰
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mt-2 relative">
+                        <div class="h-1 bg-gray-600 rounded">
+                            <div class="h-1 bg-blue-500 rounded w-1/3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lecture Information -->
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                    Introduction to Geometry
+                </h1>
+                <p class="text-gray-600 mb-4">
+                    Learn basic geometric concepts through interactive drawings. This lecture covers fundamental principles of geometry including points, lines, angles, and basic shapes.
+                </p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span>👤 Prof. Smith</span>
+                    <span class="mx-2">•</span>
+                    <span>⏱️ 15 mins</span>
+                    <span class="mx-2">•</span>
+                    <span>📅 Published: Jan 20, 2024</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const playPauseBtn = document.getElementById('playPause');
+        const speedDisplay = document.getElementById('speed');
+        let isPlaying = false;
+        let playbackSpeed = 1;
+
+        playPauseBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playPauseBtn.textContent = isPlaying ? '⏸️' : '▶️';
+        });
+
+        document.getElementById('faster').addEventListener('click', () => {
+            if (playbackSpeed < 2) {
+                playbackSpeed += 0.25;
+                speedDisplay.textContent = playbackSpeed + 'x';
+            }
+        });
+
+        document.getElementById('slower').addEventListener('click', () => {
+            if (playbackSpeed > 0.25) {
+                playbackSpeed -= 0.25;
+                speedDisplay.textContent = playbackSpeed + 'x';
+            }
+        });
+    </script>
+</body>
+</html> 

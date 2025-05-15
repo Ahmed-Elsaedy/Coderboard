@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Canvas - LearnDraw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="dashboard.html" class="text-xl font-bold text-gray-800">LearnDraw</a>
+                    <span class="ml-4 text-gray-600">Drawing: Introduction to Geometry</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="save" class="text-blue-600 hover:text-blue-800">Save</button>
+                    <button id="record" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        Record
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex h-[calc(100vh-4rem)]">
+        <!-- Tools Sidebar -->
+        <div class="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-4">
+            <button class="p-2 hover:bg-gray-100 rounded-lg" title="Pen">
+                ✏️
+            </button>
+            <button class="p-2 hover:bg-gray-100 rounded-lg" title="Eraser">
+                🧹
+            </button>
+            <button class="p-2 hover:bg-gray-100 rounded-lg" title="Clear">
+                🗑️
+            </button>
+            <div class="border-t border-gray-200 w-full my-2"></div>
+            <input type="color" class="w-8 h-8" title="Color Picker">
+            <select class="w-12 text-sm" title="Brush Size">
+                <option>1</option>
+                <option>2</option>
+                <option>4</option>
+                <option>8</option>
+            </select>
+        </div>
+
+        <!-- Canvas Area -->
+        <div class="flex-1 bg-white p-4">
+            <canvas id="drawingCanvas" 
+                    class="w-full h-full border-2 border-gray-200 rounded-lg">
+            </canvas>
+        </div>
+    </div>
+
+    <!-- Recording Controls (Hidden by default) -->
+    <div id="recordingControls" 
+         class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg p-4 hidden">
+        <div class="flex items-center space-x-4">
+            <div class="text-red-500">● Recording</div>
+            <div id="timer" class="font-mono">00:00</div>
+            <button class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Stop</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Basic drawing functionality
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            draw(e);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        // Record button functionality
+        const recordBtn = document.getElementById('record');
+        const recordingControls = document.getElementById('recordingControls');
+        
+        recordBtn.addEventListener('click', () => {
+            recordingControls.classList.toggle('hidden');
+            recordBtn.classList.toggle('bg-red-500');
+            recordBtn.classList.toggle('bg-gray-500');
+        });
+    </script>
+</body>
+</html> 

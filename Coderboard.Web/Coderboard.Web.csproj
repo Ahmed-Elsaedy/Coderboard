@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <Folder Include="HttpClients\" />
+    <Folder Include="Pages\UI\" />
     <Folder Include="Pages\Shared\" />
+    <Folder Include="wwwroot\ui\" />
   </ItemGroup>
 
   <ItemGroup>
