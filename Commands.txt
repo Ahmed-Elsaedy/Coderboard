@@ -8,3 +8,6 @@ npx @tailwindcss/cli -i ./ClientApp/css/tailwind-input.css -o ./wwwroot/css/tail
 
 Add-Migration InitialCreate -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api -OutputDir Infrastructure\Data\Migrations
 Update-Database -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api
+
+
+Script-Migration -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api

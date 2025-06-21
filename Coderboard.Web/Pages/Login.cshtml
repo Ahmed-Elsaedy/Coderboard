@@ -6,6 +6,11 @@
     ViewBag.Title = "Login Page";
 }
 
+@if (!string.IsNullOrEmpty((string)ViewData["Message"]))
+{
+    <h1>@ViewData["Message"].ToString()</h1>
+}
+
 <div class="w-full max-w-md">
     <div class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8">
         <h2 class="text-2xl font-bold mb-8 text-center text-gray-900 dark:text-white">

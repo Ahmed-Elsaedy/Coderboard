@@ -36,6 +36,8 @@ public class LoginModel : PageModel
 
         var result = await _apiClient.Api.Hello.PostAsync(new() { FirstName = "Joeehn", LastName = "Doeee" });
 
+        ViewData["Message"] = result.Message;
+
         //var loginResult = await _identityClient.LoginAsync(new LoginRequest()
         //{
         //    Email = Email,
@@ -55,6 +57,6 @@ public class LoginModel : PageModel
 
         //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-        return RedirectToPage("/Index");
+        return Page();
     }
 }
