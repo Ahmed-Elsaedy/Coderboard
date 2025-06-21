@@ -1,23 +1,20 @@
-using Coderboard.Clients;
+using Coderboard.Web.HttpClients;
 using Coderboard.Web.Resources;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace Coderboard.Web.Pages;
 
 public class LoginModel : PageModel
 {
     private readonly IConfiguration _config;
-    private readonly IdentityClient _identityClient;
-    public LoginModel(IHttpClientFactory httpClientFactory, IConfiguration config)
+    private readonly CoderboardApiClient _apiClient;
+    public LoginModel(IConfiguration config, CoderboardApiClient apiClient)
 
     {
-        _identityClient = new IdentityClient(httpClientFactory.CreateClient("ApiClient"));
         _config = config;
+        _apiClient = apiClient;
     }
 
     [BindProperty]
@@ -37,24 +34,26 @@ public class LoginModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        var loginResult = await _identityClient.LoginAsync(new LoginRequest()
-        {
-            Email = Email,
-            Password = Password
-        });
+        var result = await _apiClient.Api.Hello.PostAsync(new() { FirstName = "Joeehn", LastName = "Doeee" });
 
-        Response.Cookies.Append("AccessToken", loginResult.AccessToken);
-        Response.Cookies.Append("RefreshToken", loginResult.RefreshToken);
+        //var loginResult = await _identityClient.LoginAsync(new LoginRequest()
+        //{
+        //    Email = Email,
+        //    Password = Password
+        //});
 
-        List<Claim> claims = [
-                new(ClaimTypes.Name, Email),
-                new(ClaimTypes.Role, "Admin")
-        ];
+        //Response.Cookies.Append("AccessToken", loginResult.AccessToken);
+        //Response.Cookies.Append("RefreshToken", loginResult.RefreshToken);
 
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
+        //List<Claim> claims = [
+        //        new(ClaimTypes.Name, Email),
+        //        new(ClaimTypes.Role, "Admin")
+        //];
 
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        //var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //var principal = new ClaimsPrincipal(identity);
+
+        //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
         return RedirectToPage("/Index");
     }

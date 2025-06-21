@@ -1,15 +1,17 @@
-using Coderboard.Clients;
-using Coderboard.Web.Framework;
+using Coderboard.Web.Framework.Kiota;
 using Coderboard.Web.Resources;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.Kiota.Abstractions.Authentication;
 using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddKiotaHandlers();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -32,22 +34,30 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     }));
 });
 
+builder.Services.AddHttpClient<CoderboardApiClientFactory>((sp, client) => {
+    var config = sp.GetRequiredService<IConfiguration>();
+    client.BaseAddress = new Uri(config["ApiBaseUrl"]);
+    client.DefaultRequestHeaders.Add("x-api-key", config["Auth:ApiKey"]);
+}).AttachKiotaHandlers();
+
+builder.Services.AddTransient(sp => sp.GetRequiredService<CoderboardApiClientFactory>().GetClient());
+
 builder.Services.AddRazorPages()
     .AddViewLocalization()
-.AddDataAnnotationsLocalization(
-        options =>
-        {
-            options.DataAnnotationLocalizerProvider =
-                (type, factory) =>
-                {
-                    var assemblyName =
-                        new AssemblyName(
-                            typeof(DataAnnotations)
-                                    .GetTypeInfo()
-                                    .Assembly.FullName!);
-                    return factory.Create("DataAnnotations", assemblyName.Name!);
-                };
-        });
+    .AddDataAnnotationsLocalization(
+            options =>
+            {
+                options.DataAnnotationLocalizerProvider =
+                    (type, factory) =>
+                    {
+                        var assemblyName =
+                            new AssemblyName(
+                                typeof(DataAnnotations)
+                                        .GetTypeInfo()
+                                        .Assembly.FullName!);
+                        return factory.Create("DataAnnotations", assemblyName.Name!);
+                    };
+            });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -60,24 +70,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddHttpClient("ApiClient", client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7251");
-})
-.AddHttpMessageHandler<AccessTokenHandler>();
-
-builder.Services.AddTransient<AccessTokenHandler>();
-
-builder.Services.AddHttpClient<IdentityClient>("ApiClient");
-builder.Services.AddHttpClient<WeatherClient>("ApiClient");
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -96,3 +93,16 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+
+internal class TokenProvider : IAccessTokenProvider
+{
+    public AllowedHostsValidator AllowedHostsValidator { get; }
+
+    public Task<string> GetAuthorizationTokenAsync(
+        Uri uri,
+        Dictionary<string, object> additionalAuthenticationContext = null,
+        CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult("");
+    }
+}

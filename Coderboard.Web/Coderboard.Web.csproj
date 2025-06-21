@@ -7,13 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="HttpClients\" />
-    <Folder Include="Pages\UI\" />
-    <Folder Include="Pages\Shared\" />
-    <Folder Include="wwwroot\ui\" />
+    <Compile Remove="Pages\UI\**" />
+    <Content Remove="Pages\UI\**" />
+    <EmbeddedResource Remove="Pages\UI\**" />
+    <None Remove="Pages\UI\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="HttpClients\" />
+    <Folder Include="Pages\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="6.0.0" />
     <PackageReference Include="Handlebars.Net" Version="2.1.6" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
   </ItemGroup>
@@ -41,9 +47,5 @@
       <LastGenOutput>LoginModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
-  <Target Name="NSwagCodeGeneration" BeforeTargets="BeforeBuild">
-    <Exec Command="dotnet nswag run nswag.json" StandardOutputImportance="high" />
-  </Target>
 
 </Project>
