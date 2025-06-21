@@ -4,7 +4,7 @@
 npx @tailwindcss/cli -i ./ClientApp/css/tailwind-input.css -o ./wwwroot/css/tailwind-output.css --config ./ClientApp/tailwind.config.js --watch
 
 
--- add database migration --
-Add-Migration InitialCreate -OutputDir Infrastructure/Database/Migrations
+-- Add-Update Database Migration --
 
-Update-Database
+Add-Migration InitialCreate -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api -OutputDir Infrastructure\Data\Migrations
+Update-Database -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api

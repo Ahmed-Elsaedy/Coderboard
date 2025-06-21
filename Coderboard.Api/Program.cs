@@ -1,4 +1,5 @@
 using Coderboard.Api;
+using Coderboard.Modules.Identity;
 using FastEndpoints;
 using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
@@ -19,6 +20,7 @@ builder.Services
 
 builder.Services.SwaggerDocument(o =>
 {
+    o.AutoTagPathSegmentIndex = 0;
     o.EnableJWTBearerAuth = false;
     o.DocumentSettings = s =>
     {
@@ -30,6 +32,8 @@ builder.Services.SwaggerDocument(o =>
         });
     };
 });
+
+IdentityModule.RegisterServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -44,6 +48,8 @@ app.UseAuthentication()
            c.Errors.UseProblemDetails();
        })
    .UseSwaggerGen();
+
+IdentityModule.ConfigureServices(app);
 
 await app.GenerateApiClientsAndExitAsync(c =>
     {
