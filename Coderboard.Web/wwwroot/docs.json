@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "titleEn": "Getting Started",
+    "titleAr": "البدء",
+    "descriptionEn": "# Welcome\nThis is the getting started guide.",
+    "descriptionAr": "# مرحبًا\nهذا هو دليل البدء.",
+    "children": [
+      {
+        "id": 2,
+        "titleEn": "Installation",
+        "titleAr": "التثبيت",
+        "descriptionEn": "## Install\nHow to install.",
+        "descriptionAr": "## التثبيت\nكيفية التثبيت.",
+        "children": [
+          {
+            "id": 6,
+            "titleEn": "Windows",
+            "titleAr": "ويندوز",
+            "descriptionEn": "### Windows Install\nSteps for Windows.",
+            "descriptionAr": "### تثبيت ويندوز\nخطوات ويندوز.",
+            "children": [
+              {
+                "id": 10,
+                "titleEn": "PowerShell",
+                "titleAr": "باورشل",
+                "descriptionEn": "#### PowerShell\nInstall using PowerShell.",
+                "descriptionAr": "#### باورشل\nالتثبيت باستخدام باورشل."
+              }
+            ]
+          },
+          {
+            "id": 7,
+            "titleEn": "Linux",
+            "titleAr": "لينكس",
+            "descriptionEn": "### Linux Install\nSteps for Linux.",
+            "descriptionAr": "### تثبيت لينكس\nخطوات لينكس."
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "titleEn": "Configuration",
+        "titleAr": "الإعدادات",
+        "descriptionEn": "## Configuration\nHow to configure the app.",
+        "descriptionAr": "## الإعدادات\nكيفية إعداد التطبيق."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "titleEn": "Features",
+    "titleAr": "الميزات",
+    "descriptionEn": "# Features\nExplore the features.",
+    "descriptionAr": "# الميزات\nاستكشف الميزات.",
+    "children": [
+      {
+        "id": 5,
+        "titleEn": "Authentication",
+        "titleAr": "المصادقة",
+        "descriptionEn": "## Authentication\nHow authentication works.",
+        "descriptionAr": "## المصادقة\nكيف تعمل المصادقة.",
+        "children": [
+          {
+            "id": 8,
+            "titleEn": "OAuth",
+            "titleAr": "أو أوث",
+            "descriptionEn": "### OAuth\nOAuth details.",
+            "descriptionAr": "### أو أوث\nتفاصيل أو أوث.",
+            "children": [
+              {
+                "id": 9,
+                "titleEn": "OAuth2",
+                "titleAr": "أو أوث 2",
+                "descriptionEn": "#### OAuth2\nOAuth2 details.",
+                "descriptionAr": "#### أو أوث 2\nتفاصيل أو أوث 2."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+] 

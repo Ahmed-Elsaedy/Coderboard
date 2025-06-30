@@ -1,0 +1,82 @@
+﻿@page
+@model Coderboard.Web.Areas.Wireframes.Pages.LMS.RegisterModel
+@{
+}
+
+@await Html.PartialAsync("_NavBar")
+
+<!-- Register Form -->
+<main class="flex items-center justify-center p-12 px-4">
+    <div class="bg-white border border-gray-300 rounded-lg w-full max-w-3xl p-8 space-y-6">
+
+        <!-- Header -->
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl font-bold text-gray-700">إنشاء حساب جديد</h1>
+            <p class="text-sm text-gray-500">املأ المعلومات لإنشاء حسابك على المنصة</p>
+        </div>
+
+        <!-- Form -->
+        <form class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600">
+
+            <!-- Full Name -->
+            <div class="space-y-1">
+                <label>الاسم الكامل</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="space-y-1">
+                <label>البريد الإلكتروني</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Mobile Number -->
+            <div class="space-y-1">
+                <label>رقم الجوال</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="space-y-1">
+                <label>كلمة المرور</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="space-y-1">
+                <label>تأكيد كلمة المرور</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Account Type (Radio style) -->
+            <div class="space-y-1">
+                <label>نوع الحساب</label>
+                <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                        <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                        <span class="text-gray-500">طالب</span>
+                    </div>
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                        <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                        <span class="text-gray-500">مدرس</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms Agreement (full width) -->
+            <div class="md:col-span-2 flex items-center space-x-2 rtl:space-x-reverse text-gray-500">
+                <div class="w-4 h-4 bg-gray-300 rounded-sm"></div>
+                <span>أوافق على الشروط والأحكام</span>
+            </div>
+
+            <!-- Submit (full width) -->
+            <div class="md:col-span-2">
+                <div class="w-full h-10 bg-gray-300 rounded text-center text-gray-700 flex items-center justify-center">
+                    إنشاء الحساب
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</main>

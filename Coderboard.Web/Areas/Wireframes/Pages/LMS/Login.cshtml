@@ -1,0 +1,51 @@
+﻿@page
+@model Coderboard.Web.Areas.Wireframes.Pages.LMS.LoginModel
+@{
+}
+
+@await Html.PartialAsync("_NavBar")
+
+<div class="bg-gray-100 flex items-center justify-center py-12 ">
+
+    <div class="bg-white border border-gray-300 rounded-lg w-full max-w-md p-8 space-y-6">
+
+        <!-- Header -->
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl font-bold text-gray-700">تسجيل الدخول</h1>
+            <p class="text-sm text-gray-500">أدخل بياناتك للمتابعة إلى المنصة</p>
+        </div>
+
+        <!-- Form -->
+        <form class="space-y-5">
+
+            <!-- Email -->
+            <div class="space-y-1">
+                <label class="block text-sm text-gray-600">البريد الإلكتروني</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="space-y-1">
+                <label class="block text-sm text-gray-600">كلمة المرور</label>
+                <div class="w-full h-10 bg-gray-200 rounded"></div>
+            </div>
+
+            <!-- Options -->
+            <div class="flex justify-between items-center text-sm text-gray-500">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <div class="w-4 h-4 bg-gray-300 rounded-sm"></div>
+                    <span>تذكرني</span>
+                </div>
+                <span>نسيت كلمة المرور؟</span>
+            </div>
+
+            <!-- Submit (static) -->
+            <div class="w-full h-10 bg-gray-300 rounded text-center text-gray-700 text-sm flex items-center justify-center">
+                تسجيل الدخول
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
