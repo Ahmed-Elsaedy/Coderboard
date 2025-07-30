@@ -11,3 +11,9 @@ Update-Database -Project Coderboard.Modules.Identity -StartupProject Coderboard.
 
 
 Script-Migration -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api
+
+
+
+Add-Migration InitialCreate -Project Coderboard.Modules.Identity -OutputDir Infrastructure\Data\Migrations
+
+Update-Database -Project Coderboard.Modules.Identity -StartupProject Coderboard.Api

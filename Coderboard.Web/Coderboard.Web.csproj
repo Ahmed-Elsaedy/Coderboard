@@ -14,15 +14,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="HttpClients\" />
     <Folder Include="Pages\Shared\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="6.0.0" />
     <PackageReference Include="Handlebars.Net" Version="2.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.9.0" />
+	<PackageReference Include="FastEndpoints.Swagger" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Coderboard.Modules.Identity\Coderboard.Modules.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

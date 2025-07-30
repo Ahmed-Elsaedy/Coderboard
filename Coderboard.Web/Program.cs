@@ -1,17 +1,16 @@
-using Coderboard.Web.Framework.Kiota;
+using Coderboard.Modules.Identity;
 using Coderboard.Web.Resources;
+using FastEndpoints;
+using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
-using Microsoft.Kiota.Abstractions.Authentication;
 using System.Globalization;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddKiotaHandlers();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -34,14 +33,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     }));
 });
 
-builder.Services.AddHttpClient<CoderboardApiClientFactory>((sp, client) => {
-    var config = sp.GetRequiredService<IConfiguration>();
-    client.BaseAddress = new Uri(config["ApiBaseUrl"]);
-    client.DefaultRequestHeaders.Add("x-api-key", config["Auth:ApiKey"]);
-}).AttachKiotaHandlers();
-
-builder.Services.AddTransient(sp => sp.GetRequiredService<CoderboardApiClientFactory>().GetClient());
-
 builder.Services.AddRazorPages()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization(
@@ -59,6 +50,18 @@ builder.Services.AddRazorPages()
                     };
             });
 
+builder.Services
+  .AddFastEndpoints(o =>
+  {
+      o.SourceGeneratorDiscoveredTypes.AddRange(Coderboard.Modules.Identity.DiscoveredTypes.All);
+  });
+
+builder.Services.SwaggerDocument(o =>
+{
+    o.AutoTagPathSegmentIndex = 0;
+    o.EnableJWTBearerAuth = false;
+});
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -69,6 +72,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+
+IdentityModule.RegisterServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -88,21 +93,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseFastEndpoints(
+       c =>
+       {
+           c.Binding.ReflectionCache.AddFromCoderboardModulesIdentity();
+           c.Errors.UseProblemDetails();
+       })
+   .UseSwaggerGen();
+
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
+IdentityModule.ConfigureServices(app);
+
 app.Run();
-
-internal class TokenProvider : IAccessTokenProvider
-{
-    public AllowedHostsValidator AllowedHostsValidator { get; }
-
-    public Task<string> GetAuthorizationTokenAsync(
-        Uri uri,
-        Dictionary<string, object> additionalAuthenticationContext = null,
-        CancellationToken cancellationToken = default)
-    {
-        return Task.FromResult("");
-    }
-}

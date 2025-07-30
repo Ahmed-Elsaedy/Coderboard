@@ -1,4 +1,5 @@
 using FastEndpoints;
+using Microsoft.AspNetCore.Http;
 
 namespace Coderboard.Modules.Identity.Features.SayHello
 {
@@ -7,7 +8,8 @@ namespace Coderboard.Modules.Identity.Features.SayHello
         public override void Configure()
         {
             Post("/api/hello");
-           // AllowAnonymous();
+            Description(x => x.WithTags("Test"));
+            // AllowAnonymous();
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)

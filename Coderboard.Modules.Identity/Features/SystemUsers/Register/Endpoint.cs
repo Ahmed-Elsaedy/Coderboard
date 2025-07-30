@@ -9,8 +9,8 @@ namespace Coderboard.Modules.Identity.Features.SayHello
 {
     sealed class RegisterSystemUserEndpoint : Endpoint<RegisterSystemUserRequest>
     {
-        private readonly IdentityDbContext _dbContext;
-        public RegisterSystemUserEndpoint(IdentityDbContext dbContext)
+        private readonly IdentityModuleDbContext _dbContext;
+        public RegisterSystemUserEndpoint(IdentityModuleDbContext dbContext)
         {
             _dbContext = dbContext;
         }
