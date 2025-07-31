@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{02EA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{670D622D-F28F-4D6D-898B-CD623A226D33}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{B817DF59-0AAB-40D8-A13B-397D47DBF32D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coderboard.Modules.Identity.Web", "Coderboard.Modules.Identity.Web\Coderboard.Modules.Identity.Web.csproj", "{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,13 +34,19 @@ Global
 		{11C238FD-FD68-4899-9A5D-FCDFABA91AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11C238FD-FD68-4899-9A5D-FCDFABA91AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11C238FD-FD68-4899-9A5D-FCDFABA91AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EB0E01BD-D799-4729-ACFD-DEF1A83713DA} = {670D622D-F28F-4D6D-898B-CD623A226D33}
-		{11C238FD-FD68-4899-9A5D-FCDFABA91AE3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{11C238FD-FD68-4899-9A5D-FCDFABA91AE3} = {B817DF59-0AAB-40D8-A13B-397D47DBF32D}
+		{B817DF59-0AAB-40D8-A13B-397D47DBF32D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6E3FDAF0-F8F5-48CC-B530-6B59F97A37C3} = {B817DF59-0AAB-40D8-A13B-397D47DBF32D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4882A35C-DA14-417D-9674-228A3EB53D0B}

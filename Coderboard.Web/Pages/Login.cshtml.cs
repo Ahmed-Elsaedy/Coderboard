@@ -1,10 +1,12 @@
 using Coderboard.Web.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
 namespace Coderboard.Web.Pages;
 
+[Authorize]
 public class LoginModel : PageModel
 {
     private readonly IConfiguration _config;
