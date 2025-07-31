@@ -15,7 +15,7 @@ namespace Coderboard.Web
         {
             public static IServiceCollection RegisterServices(WebApplicationBuilder builder)
             {
-                builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+                //builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
                 builder.Services.Configure<RequestLocalizationOptions>(options =>
                 {
