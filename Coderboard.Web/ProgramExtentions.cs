@@ -1,11 +1,9 @@
 ﻿using Coderboard.Modules.Identity;
-using Coderboard.Web.Resources;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
-using System.Reflection;
 
 namespace Coderboard.Web
 {
@@ -48,30 +46,6 @@ namespace Coderboard.Web
             }
         }
 
-        public static class RazorPages
-        {
-            public static IServiceCollection RegisterServices(WebApplicationBuilder builder)
-            {
-                builder.Services.AddRazorPages()
-                    .AddViewLocalization()
-                    .AddDataAnnotationsLocalization(
-                            options =>
-                            {
-                                options.DataAnnotationLocalizerProvider =
-                                    (type, factory) =>
-                                    {
-                                        var assemblyName =
-                                            new AssemblyName(
-                                                typeof(DataAnnotations)
-                                                        .GetTypeInfo()
-                                                        .Assembly.FullName!);
-                                        return factory.Create("DataAnnotations", assemblyName.Name!);
-                                    };
-                            });
-                return builder.Services;
-            }
-        }
-
         public static class FastEndpoints
         {
             public static IServiceCollection RegisterServices(WebApplicationBuilder builder)
@@ -108,6 +82,8 @@ namespace Coderboard.Web
             {
                 builder.Services.AddHttpContextAccessor();
 
+                builder.Services.AddRazorPages();
+
                 return builder.Services;
             }
 
@@ -116,6 +92,7 @@ namespace Coderboard.Web
                 if (!app.Environment.IsDevelopment())
                 {
                     app.UseExceptionHandler("/Error");
+
                     app.UseHsts();
                 }
 

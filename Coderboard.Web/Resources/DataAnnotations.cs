@@ -1,4 +1,0 @@
-﻿namespace Coderboard.Web.Resources
-{
-
-}

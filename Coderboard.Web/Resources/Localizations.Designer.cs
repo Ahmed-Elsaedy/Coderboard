@@ -22,14 +22,14 @@ namespace Coderboard.Web.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DataAnnotations {
+    public class Localizations {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DataAnnotations() {
+        internal Localizations() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Coderboard.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Coderboard.Web.Resources.DataAnnotations", typeof(DataAnnotations).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Coderboard.Web.Resources.Localizations", typeof(Localizations).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,11 @@ namespace Coderboard.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Coderboard.
         /// </summary>
-        public static string Pages_LoginModel_Email {
+        public static string ApplicationName {
             get {
-                return ResourceManager.GetString("Pages_LoginModel_Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Password.
-        /// </summary>
-        public static string Pages_LoginModel_Password {
-            get {
-                return ResourceManager.GetString("Pages_LoginModel_Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The {0} field is required..
-        /// </summary>
-        public static string Required {
-            get {
-                return ResourceManager.GetString("Required", resourceCulture);
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
     }

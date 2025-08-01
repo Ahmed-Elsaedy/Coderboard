@@ -18,15 +18,15 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    [DataType(DataType.EmailAddress)]
-    [Required(ErrorMessage = nameof(DataAnnotations.Required))]
-    [Display(Name = nameof(DataAnnotations.Pages_LoginModel_Email))]
+    //[DataType(DataType.EmailAddress)]
+    //[Required(ErrorMessage = nameof(DataAnnotations.Required))]
+    //[Display(Name = nameof(DataAnnotations.Pages_LoginModel_Email))]
     public string Email { get; set; }
 
     [BindProperty]
-    [DataType(DataType.Password)]
-    [Required(ErrorMessage = nameof(DataAnnotations.Required))]
-    [Display(Name = nameof(DataAnnotations.Pages_LoginModel_Password))]
+    //[DataType(DataType.Password)]
+    //[Required(ErrorMessage = nameof(DataAnnotations.Required))]
+    //[Display(Name = nameof(DataAnnotations.Pages_LoginModel_Password))]
     public string Password { get; set; }
 
     //public IActionResult OnPost()
