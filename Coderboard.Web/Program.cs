@@ -1,4 +1,4 @@
-﻿using Coderboard.Modules.Identity.Web;
+using Coderboard.Modules.Identity.Web;
 using Coderboard.Web;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -12,7 +12,7 @@ namespace Coderboard.Modules.Identity.Web
         {
             IdentityModule.RegisterServices(builder.Services, builder.Configuration);
 
-            builder.Services.AddDefaultIdentity<IdentityUser>()
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<IdentityModuleDbContext>();
 
             builder.Services.ConfigureApplicationCookie(options =>

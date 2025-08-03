@@ -17,21 +17,11 @@
         }
     </script>
 </head>
-<body class="h-full bg-gray-50 dark:bg-gray-900">
-
-    <partial name="_Header" />
-    
-    <main class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        @RenderBody()
-    </main>
-
+<body>
+    @RenderBody()
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @if (ViewData["JqueryValidation"] as bool? == true)
-    {
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
-    })
 </body>
 </html>
