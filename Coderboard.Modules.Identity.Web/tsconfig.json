@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "rootDir": "Areas",
+    "outDir": "wwwroot/js",
+    "strict": true,
+    "esModuleInterop": true,
+    "sourceMap": true
+  },
+  "include": [
+    "Areas/**/*.ts"
+  ]
+}
