@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
-		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
@@ -12,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Htmx" Version="1.8.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
 	</ItemGroup>
 
@@ -36,6 +36,7 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\js\" />
+	  <Folder Include="wwwroot\js\Identity\Pages\Account\" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,19 @@
+﻿#nav-indicator.htmx-indicator,
+#page-blocker.htmx-indicator {
+    display: none;
+    pointer-events: none;
+}
+
+    /* Show the TOP BAR during a request */
+    .htmx-request #nav-indicator.htmx-indicator,
+    #nav-indicator.htmx-indicator.htmx-request {
+        display: block; /* block is fine for a 1px bar */
+        pointer-events: none; /* never block clicks */
+    }
+
+    /* Show the FULL-PAGE OVERLAY during a request */
+    .htmx-request #page-blocker.htmx-indicator,
+    #page-blocker.htmx-indicator.htmx-request {
+        display: flex; /* beats Tailwind's .flex when needed */
+        pointer-events: auto; /* now it can block input intentionally */
+    }
