@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,6 +10,26 @@ namespace Coderboard.Web.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+
+         public string df()
+        {
+            // The owning RCL (or host) assembly name
+            var asm = GetType().Assembly.GetName().Name;
+
+            // Descriptor for THIS page (instance, not static)
+            var cpad = PageContext?.ActionDescriptor as CompiledPageActionDescriptor;
+
+            // e.g. "Areas/Identity/Pages/Account/Login.cshtml"
+            var rel = cpad?.RelativePath;
+
+            if (string.IsNullOrEmpty(rel))
+                return $"/_content/{asm}/__unknown__.module.js";
+
+            // Build: "/_content/<Asm>/Areas/Identity/Pages/Account/Login.module.js"
+            if (rel.StartsWith("/")) rel = rel.Substring(1);
+            return $"/_content/{asm}/" + rel.Replace(".cshtml", ".js");
+        }
+
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 

@@ -105,65 +105,44 @@ document.body.addEventListener('htmx:configRequest', function (evt) {
     }
 });
 
-
 (function () {
+    // tiny helper used only for comparisons inside the template
+    Handlebars.registerHelper('eq', (a, b) => a === b);
+
     const host = document.getElementById('toasts');
 
-    function toast({ title = '', message = '', type = 'info', timeout = 4000 } = {}) {
-        const theme = {
-            success: {
-                bg: 'bg-emerald-50', text: 'text-emerald-900', ring: 'ring-emerald-200',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12.75L11.25 15 15 9.75" /><path fill-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" clip-rule="evenodd"/></svg>'
-            },
-            error: {
-                bg: 'bg-rose-50', text: 'text-rose-900', ring: 'ring-rose-200',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8v5"/><circle cx="12" cy="16" r="1.25"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>'
-            },
-            info: {
-                bg: 'bg-sky-50', text: 'text-sky-900', ring: 'ring-sky-200',
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11 10h2v7h-2zM11 7h2v2h-2z"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>'
-            }
-        }[type] || theme.info;
+    let tpl = null;
+    (async () => {
+        const res = await fetch('/templates/toast.hbs', { cache: 'force-cache' });
+        const src = await res.text();
+        tpl = Handlebars.compile(src);
+    })();
 
-        const el = document.createElement('div');
-        el.className = `pointer-events-auto w-80 max-w-[90vw] overflow-hidden rounded-xl shadow-lg ring-1 ${theme.ring} ${theme.bg} ${theme.text} 
-                      transition transform duration-200 ease-out translate-y-2 opacity-0`;
-        el.innerHTML = `
-        <div class="p-3 flex gap-3">
-          <div class="mt-0.5">${theme.icon}</div>
-          <div class="flex-1">
-            ${title ? `<div class="font-semibold leading-5">${title}</div>` : ``}
-            ${message ? `<div class="text-sm/5 opacity-90">${message}</div>` : ``}
-          </div>
-          <button type="button" class="shrink-0 rounded-md p-1/2 opacity-70 hover:opacity-100" aria-label="Close">&times;</button>
-        </div>
-      `;
+    debugger;
 
+    function renderToast({ type = 'info', title = '', message = '', timeout = 4000 } = {}) {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = tpl({ type, title, message });
+        const el = wrapper.firstElementChild;
         host.appendChild(el);
-        // enter animation
+
+        // enter/exit animation (class toggles only)
         requestAnimationFrame(() => {
             el.classList.remove('translate-y-2', 'opacity-0');
             el.classList.add('translate-y-0', 'opacity-100');
         });
-
-        const closeBtn = el.querySelector('button');
-        const remove = () => {
-            el.classList.add('translate-y-2', 'opacity-0');
-            setTimeout(() => el.remove(), 180);
-        };
-        closeBtn.addEventListener('click', remove);
+        const remove = () => { el.classList.add('translate-y-2', 'opacity-0'); setTimeout(() => el.remove(), 180); };
+        el.querySelector('button[aria-label="Close"]').addEventListener('click', remove);
         const t = setTimeout(remove, timeout);
-        el.addEventListener('pointerenter', () => clearTimeout(t)); // pause on hover
-        return remove;
+        el.addEventListener('pointerenter', () => clearTimeout(t));
     }
 
-    // Expose for manual use if you like
-    window.showToast = toast;
+    // Expose if needed
+    window.renderToast = renderToast;
 
-    // htmx errors → error toast
+    // htmx → automatic error toasts
     document.body.addEventListener('htmx:responseError', (e) => {
-        const st = e.detail.xhr.status;
-        let msg = 'Something went wrong.';
+        let msg = 'Something went wrong.', st = e.detail.xhr.status;
         try {
             const ct = e.detail.xhr.getResponseHeader('Content-Type') || '';
             if (ct.includes('application/json')) {
@@ -171,13 +150,54 @@ document.body.addEventListener('htmx:configRequest', function (evt) {
                 msg = data.message || data.title || msg;
             }
         } catch { }
-        toast({ title: `Error ${st}`, message: msg, type: 'error' });
+        renderToast({ type: 'error', title: `Error ${st}`, message: msg });
     });
     document.body.addEventListener('htmx:sendError', () => {
-        toast({ title: 'Network error', message: 'Please check your connection and try again.', type: 'error' });
+        renderToast({ type: 'error', title: 'Network error', message: 'Please try again.' });
     });
 
-    // Server-driven success/info/error via HX-Trigger
-    // Example in C#: Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Profile updated" }});
-    document.body.addEventListener('toast', (e) => toast(e.detail || {}));
+    // Server-triggered toast via HX-Trigger
+    // Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Done." }});
+    document.body.addEventListener('toast', (e) => renderToast(e.detail || {}));
 })();
+
+
+async function loadComponentFor(root) {
+    if (!root) return;
+
+    const moduleRelPath = root.getAttribute('data-module');
+
+    if (!moduleRelPath) return;
+
+    try {
+        const mod = await import(moduleRelPath);
+        const fn = mod.default || mod.init;
+        if (typeof fn === 'function') {
+            fn(root);
+        } else {
+            console.warn(`[site.js] Module ${url} did not export default/init function.`);
+        }
+    } catch (err) {
+        console.error(`[site.js] Failed to import ${url}`, err);
+    }
+}
+
+function hydrate(container = document) {
+    container.querySelectorAll('[data-component]').forEach(el => loadComponentFor(el));
+}
+
+// Initial load (for normal first render)
+document.addEventListener('DOMContentLoaded', () => {
+    hydrate(document);
+});
+
+// HTMX integration (after swaps)
+document.body.addEventListener('htmx:afterSwap', (e) => {
+    // e.detail.target is where HTMX injected content
+    hydrate(e.detail?.target || document);
+});
+
+// If you want to be even safer for late DOM updates:
+document.body.addEventListener('htmx:afterSettle', (e) => {
+    hydrate(e.detail?.target || document);
+});

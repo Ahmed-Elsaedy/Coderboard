@@ -39,10 +39,7 @@
         </div>
     </div>
 
-    <div id="toasts"
-         aria-live="polite"
-         aria-atomic="true"
-         class="fixed top-4 right-4 z-[1100] space-y-3 pointer-events-none"></div>
+    <div id="toasts" class="fixed top-4 right-4 z-[1100] space-y-3 pointer-events-none" aria-live="polite"></div>
 
     <main id="app" hx-history-elt>
         @RenderBody()
@@ -52,6 +49,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/htmx/dist/htmx.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@@4.7.8/dist/handlebars.min.js"></script>
+    <script type="module" src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

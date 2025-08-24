@@ -1,0 +1,41 @@
+﻿{{!-- inline partials for icons --}}
+{{#*inline "icon-success"}}
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M9 12.75L11.25 15 15 9.75" />
+    <path fill-rule="evenodd" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" clip-rule="evenodd" />
+</svg>
+{{/inline}}
+
+{{#*inline "icon-error"}}
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 8v5" />
+    <circle cx="12" cy="16" r="1.25" />
+    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+</svg>
+{{/inline}}
+
+{{#*inline "icon-info"}}
+<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11 10h2v7h-2zM11 7h2v2h-2z" />
+    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+</svg>
+{{/inline}}
+
+<div class="pointer-events-auto w-80 max-w-[90vw] overflow-hidden rounded-xl shadow-lg ring-1
+            transition duration-200 ease-out translate-y-2 opacity-0
+            {{#if (eq type 'success')}} bg-emerald-50 text-emerald-900 ring-emerald-200 {{/if}}
+            {{#if (eq type 'error')}}   bg-rose-50    text-rose-900    ring-rose-200    {{/if}}
+            {{#if (eq type 'info')}}    bg-sky-50     text-sky-900     ring-sky-200     {{/if}}">
+    <div class="p-3 flex gap-3">
+        <div class="mt-0.5">
+            {{#if (eq type 'success')}} {{> icon-success}} {{/if}}
+            {{#if (eq type 'error')}}   {{> icon-error}}   {{/if}}
+            {{#if (eq type 'info')}}    {{> icon-info}}    {{/if}}
+        </div>
+        <div class="flex-1 min-w-0">
+            {{#if title}}   <div class="font-semibold leading-5 truncate">{{title}}</div>   {{/if}}
+            {{#if message}} <div class="text-sm/5 opacity-90 break-words">{{message}}</div> {{/if}}
+        </div>
+        <button type="button" class="shrink-0 rounded-md px-2 opacity-70 hover:opacity-100" aria-label="Close">&times;</button>
+    </div>
+</div>
