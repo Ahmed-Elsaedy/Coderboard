@@ -42,26 +42,31 @@
 	    <LastGenOutput>IdentityResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
-	
-	<!-- Compile TS into wwwroot -->
-	<Target Name="CompileTypeScript" BeforeTargets="Build">
+
+	<Target Name="CompileTypeScript" BeforeTargets="ResolveStaticWebAssets">
 		<Exec Command="tsc -p &quot;$(MSBuildProjectDirectory)\tsconfig.json&quot;" />
 	</Target>
 
-	<!-- Rename any emitted *.cshtml.js to avoid Razor's 'associated JS' rule -->
-	<Target Name="RenameAssociatedJs" AfterTargets="CompileTypeScript" Condition="Exists('$(MSBuildProjectDirectory)\wwwroot')">
+	<!-- Rename emitted *.cshtml.js -> *.module.js BEFORE ResolveStaticWebAssets -->
+	<Target Name="RenameAssociatedJs" AfterTargets="CompileTypeScript" BeforeTargets="ResolveStaticWebAssets">
 		<ItemGroup>
 			<CshtmlJs Include="wwwroot\**\*.cshtml.js" />
 		</ItemGroup>
-		<Move SourceFiles="@(CshtmlJs)" DestinationFiles="@(CshtmlJs->'%(RootDir)%(Directory)%(Filename).module.js')" OverwriteReadOnlyFiles="true" />
+		<Move
+		  SourceFiles="@(CshtmlJs)"
+		  DestinationFiles="@(CshtmlJs->'%(RootDir)%(Directory)%(Filename).module.js')"
+		  OverwriteReadOnlyFiles="true" />
 	</Target>
 
+	<!-- And make sure nothing references *.cshtml.js -->
 	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+		<Content Remove="wwwroot\**\*.cshtml.js" />
+		<None    Remove="wwwroot\**\*.cshtml.js" />
+		<StaticWebAsset Remove="wwwroot\**\*.cshtml.js" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Areas\Identity\Pages\Account\Login.ts" />
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

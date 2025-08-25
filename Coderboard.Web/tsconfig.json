@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "lib": [ "ES2020", "DOM" ],
+    "strict": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "rootDir": "wwwroot/js-src",
+    "outDir": "wwwroot/js",
+    "types": []
+  },
+  "include": [ "wwwroot/js-src/**/*.ts" ],
+  "exclude": [ "wwwroot/js" ]
+}
