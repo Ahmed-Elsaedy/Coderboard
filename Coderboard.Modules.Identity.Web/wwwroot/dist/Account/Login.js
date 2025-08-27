@@ -1,7 +1,7 @@
 export default class Login {
     onInit(root, host) {
         /* wire with {signal: ac.signal} */
-        console.log("onInit");
+        console.log("onInittt3434343");
     }
     onUpdate(root, host, prev) {
         /* abort old, rewire */

@@ -9,11 +9,6 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2" PrivateAssets="All" />
-		<TypeScriptCompile Include="ClientApp\**\*.ts" />
-	</ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="Htmx" Version="1.8.3" />
@@ -39,12 +34,5 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\dist\" />
-	</ItemGroup>
-
-	<Target Name="CompileTypeScript" BeforeTargets="Build">
-		<Exec Command="tsc -p &quot;$(MSBuildProjectDirectory)\tsconfig.json&quot;" />
-	</Target>
 
 </Project>
