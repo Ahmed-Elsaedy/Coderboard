@@ -4,7 +4,6 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<TypeScriptNoEmitOnError>true</TypeScriptNoEmitOnError>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,16 +11,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<TypeScriptCompile Include="Areas\**\*.ts" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2" PrivateAssets="All" />
+		<TypeScriptCompile Include="ClientApp\**\*.ts" />
 	</ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="Htmx" Version="1.8.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
-		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -43,30 +39,12 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<Target Name="CompileTypeScript" BeforeTargets="ResolveStaticWebAssets">
+	<ItemGroup>
+	  <Folder Include="wwwroot\dist\" />
+	</ItemGroup>
+
+	<Target Name="CompileTypeScript" BeforeTargets="Build">
 		<Exec Command="tsc -p &quot;$(MSBuildProjectDirectory)\tsconfig.json&quot;" />
 	</Target>
-
-	<!-- Rename emitted *.cshtml.js -> *.module.js BEFORE ResolveStaticWebAssets -->
-	<Target Name="RenameAssociatedJs" AfterTargets="CompileTypeScript" BeforeTargets="ResolveStaticWebAssets">
-		<ItemGroup>
-			<CshtmlJs Include="wwwroot\**\*.cshtml.js" />
-		</ItemGroup>
-		<Move
-		  SourceFiles="@(CshtmlJs)"
-		  DestinationFiles="@(CshtmlJs->'%(RootDir)%(Directory)%(Filename).module.js')"
-		  OverwriteReadOnlyFiles="true" />
-	</Target>
-
-	<!-- And make sure nothing references *.cshtml.js -->
-	<ItemGroup>
-		<Content Remove="wwwroot\**\*.cshtml.js" />
-		<None    Remove="wwwroot\**\*.cshtml.js" />
-		<StaticWebAsset Remove="wwwroot\**\*.cshtml.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
-	</ItemGroup>
 
 </Project>

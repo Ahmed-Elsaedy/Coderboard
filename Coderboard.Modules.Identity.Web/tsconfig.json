@@ -5,12 +5,14 @@
     "moduleResolution": "Node",
     "strict": true,
     "skipLibCheck": true,
-    "rootDir": ".",
-    "outDir": "wwwroot",
+    "rootDir": "ClientApp",
+    "outDir": "wwwroot/dist",
     "sourceMap": true,
-    "types": [],
-    "typeRoots": [ "./Areas/_types" ]
+    "types": []
   },
-  "include": [ "Areas/**/*.ts" ],
+  "include": [
+    "../Coderboard.Web/ClientApp/contracts.d.ts",
+    "ClientApp/**/*.ts"
+  ],
   "exclude": [ "wwwroot" ]
 }

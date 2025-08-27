@@ -7,10 +7,12 @@
     "strict": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "rootDir": "wwwroot/js-src",
-    "outDir": "wwwroot/js",
+    "rootDir": "ClientApp",
+    "outDir": "wwwroot/dist",
     "types": []
   },
-  "include": [ "wwwroot/js-src/**/*.ts" ],
-  "exclude": [ "wwwroot/js" ]
+  "include": [
+    "ClientApp/**/*.ts"
+  ],
+  "exclude": [ "wwwroot" ]
 }

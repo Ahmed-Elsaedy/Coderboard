@@ -7,18 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Remove="Pages\UI\**" />
-		<Content Remove="Pages\UI\**" />
-		<EmbeddedResource Remove="Pages\UI\**" />
-		<None Remove="Pages\UI\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<TypeScriptCompile Include="wwwroot\js-src\**\*.ts" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2" PrivateAssets="All" />
+		<TypeScriptCompile Include="ClientApp\**\*.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -59,7 +49,7 @@
 		<Folder Include="wwwroot\lib\htmx\dist\" />
 	</ItemGroup>
 
-	<Target Name="BuildHostTs" BeforeTargets="Build">
+	<Target Name="CompileTypeScript" BeforeTargets="Build">
 		<Exec Command="tsc -p &quot;$(MSBuildProjectDirectory)\tsconfig.json&quot;" />
 	</Target>
 
