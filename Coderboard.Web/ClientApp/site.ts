@@ -50,6 +50,33 @@ class HostPageImpl implements HostPage {
 
         // Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Done." }});
         document.body.addEventListener('toast', (e: any) => this.renderToast(e.detail || {}));
+
+        // Re-wire jQuery Unobtrusive Validation after any htmx swap
+        document.body.addEventListener('htmx:afterSwap', (evt: any) => {
+            const scope = evt.detail && evt.detail.target ? evt.detail.target : document;
+            this.rewireUnobtrusiveValidation(scope);
+        });
+
+        document.body.addEventListener('htmx:configRequest', function (evt: any) {
+            const $: any = (window as any).$;
+            const elt = evt.detail.elt;
+            const form = elt.closest('form');
+            if (!form) return; // not inside a form → do nothing
+
+            // Guard: run ONLY for actual form submissions (boosted)
+            const isSubmit = (elt === form) || elt.matches('button[type="submit"], input[type="submit"]');
+            if (!isSubmit) return; // allow anchors/links inside forms
+
+            // Optional: only enforce on non-GET forms (login/register)
+            const method = (form.getAttribute('method') || 'get').toLowerCase();
+            if (method === 'get') return;
+
+            // Ensure unobtrusive is wired, then validate
+            if (!$(form).data('validator')) $.validator.unobtrusive.parse(form);
+            if (!$(form).valid()) {
+                evt.preventDefault(); // block the htmx request
+            }
+        });
     }
 
     public get(key: string) { return this.modules.find(m => m.key === key); }
@@ -89,6 +116,29 @@ class HostPageImpl implements HostPage {
         })();
         // Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Done." }});
     }
+    private rewireUnobtrusiveValidation(scope: any): void {
+        // Be defensive about jQuery being present
+        const $: any = (window as any).$;
+        const unob = $?.validator?.unobtrusive?.parse;
+        if (!($ && unob)) return;
+
+        // Re-parse only within the swapped area (faster than whole document)
+        $(scope).find('form[data-val="true"]').each(function (this: HTMLFormElement) {
+            $(this).removeData('validator');
+            $(this).removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(this);
+        });
+
+        // Focus the first validation error (search the document like your original)
+        const doc = (scope as any as Element).ownerDocument || document;
+        const firstError = doc.querySelector<HTMLElement>(
+            '.input-validation-error, [data-valmsg-summary] .field-validation-error'
+        );
+        if (firstError) {
+            (firstError.closest('input,select,textarea') as HTMLElement ?? firstError).focus();
+        }
+    }
+
 
     private urlOf = (el: HTMLElement) => el.getAttribute('data-module') ?? '';
     private keyOf = (el: HTMLElement) => el.getAttribute('data-key') ?? '';

@@ -54,6 +54,32 @@ class HostPageImpl {
         });
         // Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Done." }});
         document.body.addEventListener('toast', (e) => this.renderToast(e.detail || {}));
+        // Re-wire jQuery Unobtrusive Validation after any htmx swap
+        document.body.addEventListener('htmx:afterSwap', (evt) => {
+            const scope = evt.detail && evt.detail.target ? evt.detail.target : document;
+            this.rewireUnobtrusiveValidation(scope);
+        });
+        document.body.addEventListener('htmx:configRequest', function (evt) {
+            const $ = window.$;
+            const elt = evt.detail.elt;
+            const form = elt.closest('form');
+            if (!form)
+                return; // not inside a form → do nothing
+            // Guard: run ONLY for actual form submissions (boosted)
+            const isSubmit = (elt === form) || elt.matches('button[type="submit"], input[type="submit"]');
+            if (!isSubmit)
+                return; // allow anchors/links inside forms
+            // Optional: only enforce on non-GET forms (login/register)
+            const method = (form.getAttribute('method') || 'get').toLowerCase();
+            if (method === 'get')
+                return;
+            // Ensure unobtrusive is wired, then validate
+            if (!$(form).data('validator'))
+                $.validator.unobtrusive.parse(form);
+            if (!$(form).valid()) {
+                evt.preventDefault(); // block the htmx request
+            }
+        });
     }
     get(key) { return this.modules.find(m => m.key === key); }
     all(url) { return url ? this.modules.filter(m => m.url === url) : [...this.modules]; }
@@ -88,6 +114,25 @@ class HostPageImpl {
             this.toastTemplate = Handlebars.compile(src);
         })();
         // Response.Headers["HX-Trigger"] = JsonSerializer.Serialize(new { toast = new { type="success", title="Saved", message="Done." }});
+    }
+    rewireUnobtrusiveValidation(scope) {
+        // Be defensive about jQuery being present
+        const $ = window.$;
+        const unob = $?.validator?.unobtrusive?.parse;
+        if (!($ && unob))
+            return;
+        // Re-parse only within the swapped area (faster than whole document)
+        $(scope).find('form[data-val="true"]').each(function () {
+            $(this).removeData('validator');
+            $(this).removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(this);
+        });
+        // Focus the first validation error (search the document like your original)
+        const doc = scope.ownerDocument || document;
+        const firstError = doc.querySelector('.input-validation-error, [data-valmsg-summary] .field-validation-error');
+        if (firstError) {
+            (firstError.closest('input,select,textarea') ?? firstError).focus();
+        }
     }
     findRoots(container) {
         const out = [];

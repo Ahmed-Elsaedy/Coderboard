@@ -69,41 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     applyThemeFromLocalStorage();
 });
 
-// Re-wire jQuery Unobtrusive Validation after any htmx swap
-document.body.addEventListener('htmx:afterSwap', function (evt) {
-    // Re-parse only within the swapped target (faster than parsing the whole document)
-    const scope = evt.detail && evt.detail.target ? evt.detail.target : document;
-
-    $(scope).find('form[data-val="true"]').each(function () {
-        // Clear any previous validation data & re-parse
-        $(this).removeData('validator');
-        $(this).removeData('unobtrusiveValidation');
-        $.validator.unobtrusive.parse(this);
-    });
-
-    const firstError = document.querySelector('.input-validation-error, [data-valmsg-summary] .field-validation-error');
-    if (firstError) (firstError.closest('input,select,textarea') || firstError).focus();
-});
-
-document.body.addEventListener('htmx:configRequest', function (evt) {
-    const elt = evt.detail.elt;
-    const form = elt.closest('form');
-    if (!form) return; // not inside a form → do nothing
-
-    // Guard: run ONLY for actual form submissions (boosted)
-    const isSubmit = (elt === form) || elt.matches('button[type="submit"], input[type="submit"]');
-    if (!isSubmit) return; // allow anchors/links inside forms
-
-    // Optional: only enforce on non-GET forms (login/register)
-    const method = (form.getAttribute('method') || 'get').toLowerCase();
-    if (method === 'get') return;
-
-    // Ensure unobtrusive is wired, then validate
-    if (!$(form).data('validator')) $.validator.unobtrusive.parse(form);
-    if (!$(form).valid()) {
-        evt.preventDefault(); // block the htmx request
-    }
-});
 
 (function () {
     // tiny helper used only for comparisons inside the template
