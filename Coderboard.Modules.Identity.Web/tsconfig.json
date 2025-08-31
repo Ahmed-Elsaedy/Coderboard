@@ -3,16 +3,20 @@
     "target": "ES2020",
     "module": "ES2020",
     "moduleResolution": "Node",
+    "lib": [ "ES2020", "DOM" ],
     "strict": true,
+    "isolatedModules": true,
     "skipLibCheck": true,
-    "rootDir": "ClientApp",
-    "outDir": "wwwroot/dist",
     "sourceMap": true,
-    "types": []
+    "noEmitOnError": true
   },
   "include": [
-    "../Coderboard.Web/ClientApp/contracts.d.ts",
-    "ClientApp/**/*.ts"
+    "../Coderboard.Web/ClientApp/Shared/**/*.ts",
+    "Areas/**/Pages/**/*.cshtml.ts",
+    "Pages/**/*.cshtml.ts"
   ],
-  "exclude": [ "wwwroot" ]
+  "exclude": [
+    "wwwroot",
+    "node_modules"
+  ]
 }

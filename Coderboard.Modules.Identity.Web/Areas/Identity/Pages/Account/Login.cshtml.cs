@@ -15,7 +15,7 @@ namespace Coderboard.Web.Areas.Identity.Pages.Account
             get
             {
                 return $"/_content/{GetType().Assembly.GetName().Name}"
-                    + "/dist" + PageContext?.ActionDescriptor?.RelativePath.Split("Pages")[1].Replace(".cshtml", ".js");
+                    + PageContext?.ActionDescriptor?.RelativePath+ ".js";
             }
         }
 
@@ -70,7 +70,7 @@ namespace Coderboard.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            return StatusCode(400);
+            //return StatusCode(400);
 
             returnUrl ??= Url.Content("~/");
 

@@ -7,12 +7,13 @@
     "strict": true,
     "isolatedModules": true,
     "skipLibCheck": true,
+    "sourceMap": true,
+    "noEmitOnError": true,
     "rootDir": "ClientApp",
-    "outDir": "wwwroot/dist",
-    "types": []
+    "outDir": "wwwroot/dist"
   },
   "include": [
     "ClientApp/**/*.ts"
   ],
-  "exclude": [ "wwwroot" ]
+  "exclude": []
 }

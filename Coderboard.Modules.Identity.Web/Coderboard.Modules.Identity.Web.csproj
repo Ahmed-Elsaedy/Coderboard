@@ -13,6 +13,10 @@
 	<ItemGroup>
 		<PackageReference Include="Htmx" Version="1.8.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.0" />
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,6 +36,15 @@
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>IdentityResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="**\*.cshtml.js">
+			<Visible>false</Visible>
+		</None>
+		<None Update="**\*.cshtml.js.map">
+			<Visible>false</Visible>
+		</None>
 	</ItemGroup>
 
 
