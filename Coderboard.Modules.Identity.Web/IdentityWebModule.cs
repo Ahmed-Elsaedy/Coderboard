@@ -15,6 +15,20 @@ namespace Coderboard.Modules.Identity.Web
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<IdentityModuleDbContext>();
 
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                    // This is the default path Google will redirect to:
+                    // https://localhost:5001/signin-google (or your actual domain)
+                    // options.CallbackPath = "/signin-google"; 
+                    options.SaveTokens = true; // optional: store tokens in the auth cookie
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                });
+
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
