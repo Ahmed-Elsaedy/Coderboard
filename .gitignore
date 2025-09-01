@@ -7,6 +7,9 @@
 **/*.cshtml.js
 **/*.cshtml.js.map
 
+# Option A: ignore the entire dist folder in any project
+**/wwwroot/dist/**
+
 # User-specific files
 *.rsuser
 *.suo

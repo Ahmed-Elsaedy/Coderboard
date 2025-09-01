@@ -7,7 +7,7 @@
     "strict": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noEmitOnError": true
   },
   "include": [
