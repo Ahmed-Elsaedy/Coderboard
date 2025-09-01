@@ -3,11 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Generated from page TypeScript next to Razor pages
+# page-adjacent generated JS
 **/*.cshtml.js
 **/*.cshtml.js.map
 
-# Option A: ignore the entire dist folder in any project
+# compiled assets
 **/wwwroot/dist/**
 
 # User-specific files
