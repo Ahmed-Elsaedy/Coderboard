@@ -42,6 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="wwwroot\js\" />
 		<Folder Include="wwwroot\lib\htmx\dist\" />
 	</ItemGroup>
 
