@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,15 +9,6 @@ namespace Coderboard.Web.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        public string PageModule
-        {
-            get
-            {
-                return $"/_content/{GetType().Assembly.GetName().Name}"
-                    + PageContext?.ActionDescriptor?.RelativePath+ ".js";
-            }
-        }
-
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
