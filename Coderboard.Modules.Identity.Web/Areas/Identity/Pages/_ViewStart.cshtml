@@ -1,0 +1,4 @@
+﻿@using Htmx
+@{
+    Layout = ViewContext.HttpContext.Request.IsHtmx() ? null : "_IdentityLayout";
+}
