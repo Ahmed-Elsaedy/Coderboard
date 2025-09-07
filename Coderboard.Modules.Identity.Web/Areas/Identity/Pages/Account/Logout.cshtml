@@ -4,18 +4,25 @@
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
+<div class="min-h-[50vh] flex items-center justify-center py-12">
+    <div class="w-full max-w-xl">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-semibold text-neutral-900 dark:text-neutral-100">@ViewData["Title"]</h1>
+        </header>
+        @{
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <form class="bg-white/80 dark:bg-neutral-800/90 backdrop-blur shadow-xl rounded-2xl p-8 border border-neutral-200/60 dark:border-neutral-600/70 flex items-center justify-between gap-4" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                    <p class="text-neutral-700 dark:text-neutral-200">Are you sure you want to log out?</p>
+                    <button type="submit" class="inline-flex items-center rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-4 py-2.5 text-white text-sm font-medium shadow hover:from-red-700 hover:to-rose-700 focus:outline-none focus:ring-4 focus:ring-red-500/30">Logout</button>
+                </form>
+            }
+            else
+            {
+                <div class="bg-white/80 dark:bg-neutral-800/90 backdrop-blur shadow-xl rounded-2xl p-8 border border-neutral-200/60 dark:border-neutral-600/70 text-center">
+                    <p class="text-neutral-700 dark:text-neutral-200">You have successfully logged out of the application.</p>
+                </div>
+            }
         }
-        else
-        {
-            <p>You have successfully logged out of the application.</p>
-        }
-    }
-</header>
+    </div>
+</div>

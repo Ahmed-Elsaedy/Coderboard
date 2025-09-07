@@ -25,7 +25,7 @@ class HostPageImpl implements HostPage {
                 const t = e.detail?.target as HTMLElement | null;
                 await this.reconcile(t || document);
                 if (!t) return;
-                if (t.matches?.('[data-module]')) return; // module-level handled by onUpdate
+                if (this.hasModuleAttr(t)) return; // module-level handled by onUpdate
                 const rec = this.owningModuleOf(t); if (!rec) return;
                 const fn = rec.instance.onInnerSwap?.bind(rec.instance);
                 if (fn) {
@@ -208,23 +208,59 @@ class HostPageImpl implements HostPage {
     }
 
 
-    private urlOf = (el: HTMLElement) => el.getAttribute('data-module') ?? '';
-    private keyOf = (el: HTMLElement) => el.getAttribute('data-key') ?? '';
-    private isRoot = (n: ParentNode): n is HTMLElement => (n as Element).matches?.('[data-module]') ?? false;
+    private ATTR_PREFIX = 'jsmodule-';
+    private hasModuleAttr = (node: Element | ParentNode): boolean => {
+        // Guard: only Elements have attributes
+        const el = node as Element;
+        if (!el || (el as any).nodeType !== 1) return false;
+        const attrs = el.attributes as NamedNodeMap | undefined;
+        if (!attrs || attrs.length === 0) return false;
+        for (let i = 0; i < attrs.length; i++) {
+            const name = attrs[i].name?.toLowerCase?.();
+            if (name && name.startsWith(this.ATTR_PREFIX)) return true;
+        }
+        return false;
+    }
+    private moduleInfoOf(el: HTMLElement): { key: string; url: string } | null {
+        const attrs = el?.attributes as NamedNodeMap | undefined;
+        if (!attrs || attrs.length === 0) return null;
+        for (let i = 0; i < attrs.length; i++) {
+            const attr = attrs[i];
+            const name = attr.name?.toLowerCase?.();
+            if (name && name.startsWith(this.ATTR_PREFIX)) {
+                const key = name.substring(this.ATTR_PREFIX.length);
+                const url = attr.value;
+                if (key && url) return { key, url };
+            }
+        }
+        return null;
+    }
+    private urlOf = (el: HTMLElement) => this.moduleInfoOf(el)?.url ?? '';
+    private keyOf = (el: HTMLElement) => this.moduleInfoOf(el)?.key ?? '';
+    private isRoot = (n: ParentNode): n is HTMLElement => this.hasModuleAttr(n);
     private APP_VER = (document.querySelector('meta[name="app-version"]') as HTMLMetaElement)?.content ?? '';
     private withBust = (u: string) => this.APP_VER ? `${u}?v=${encodeURIComponent(this.APP_VER)}` : u;
 
     private findRoots(container: ParentNode): HTMLElement[] {
         const out: HTMLElement[] = [];
-        if (this.isRoot(container)) out.push(container);
-        container.querySelectorAll?.('[data-module]')?.forEach(e => out.push(e as HTMLElement));
+        if (this.isRoot(container)) out.push(container as HTMLElement);
+        // Query all descendants and filter by attribute name prefix since CSS can't match attribute-name prefixes
+        container.querySelectorAll?.('*')?.forEach(e => { if (this.hasModuleAttr(e)) out.push(e as HTMLElement); });
         return out;
     }
     private depth(el: Element) { let d = 0, n: Element | null = el; while (n) { d++; n = n.parentElement; } return d; }
     private owningModuleOf(node: HTMLElement): Loaded | undefined {
-        const root = node.closest('[data-module]') as HTMLElement | null;
+        const root = this.closestModuleRoot(node);
         if (!root) return;
         return host.modules.find(m => m.el === root);
+    }
+    private closestModuleRoot(node: HTMLElement): HTMLElement | null {
+        let n: HTMLElement | null = node;
+        while (n) {
+            if (this.hasModuleAttr(n)) return n;
+            n = n.parentElement;
+        }
+        return null;
     }
 
 
