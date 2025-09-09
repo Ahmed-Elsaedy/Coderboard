@@ -41,47 +41,7 @@
 
     <div id="toasts" class="fixed top-4 right-4 z-[1100] space-y-3 pointer-events-none" aria-live="polite"></div>
 
-    <nav class="sticky top-0 z-[900] bg-white/70 dark:bg-neutral-800/70 backdrop-blur border-b border-neutral-200/60 dark:border-neutral-600/60">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="h-14 flex items-center justify-between gap-4">
-                <a asp-area="" asp-page="/Index" class="text-sm font-semibold text-neutral-900 dark:text-neutral-100 hover:text-blue-600">@Localizations.ApplicationName</a>
-                <div class="flex items-center gap-2">
-                    <button type="button"
-                            class="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800"
-                            onclick="document.page?.switchLanguage()"
-                            title="Switch language"
-                            aria-label="Switch language">
-                        <span class="font-medium">@(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToUpper() == "AR" ? "En" : "Ar")</span>
-                    </button>
-                    <button type="button"
-                            class="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800"
-                            onclick="document.page?.toggleTheme()"
-                            title="Toggle theme"
-                            aria-label="Toggle theme">
-                        <svg data-theme-icon="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 hidden">
-                            <path d="M12 18a6 6 0 100-12 6 6 0 000 12z"/><path d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.364 6.364l-1.414-1.414M8.05 6.05L6.636 4.636m10.728 0l-1.414 1.414M8.05 17.95l-1.414 1.414" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <svg data-theme-icon="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 hidden">
-                            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-                        </svg>
-                        <span class="sr-only">Theme</span>
-                    </button>
-                    @if (User.Identity?.IsAuthenticated ?? false)
-                    {
-                        <span class="hidden sm:inline text-sm text-neutral-700 dark:text-neutral-300 select-none">@User.Identity?.Name</span>
-                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                            <button type="submit" class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500/40">Sign out</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a asp-area="Identity" asp-page="/Account/Login" class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800">Log in</a>
-                        <a asp-area="Identity" asp-page="/Account/Register" class="inline-flex items-center rounded-lg px-3 py-1.5 text-sm bg-blue-600 text-white hover:bg-blue-700">Sign up</a>
-                    }
-                </div>
-            </div>
-        </div>
-    </nav>
+    <partial name="_NavBar" model="false" />
 
     <main id="app" hx-history-elt>
         <div class="max-w-6xl mx-auto px-4 py-8">

@@ -2,3 +2,8 @@
     Layout = "_WebLayout";
 }
 @RenderBody()
+
+@if (TempData.ContainsKey("JustLoggedIn") && TempData.TryGetValue("JustLoggedIn", out object justLoggedIn))
+{
+    <partial name="_NavBar" model="true" />
+}

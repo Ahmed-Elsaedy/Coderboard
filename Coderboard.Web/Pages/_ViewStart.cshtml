@@ -1,3 +1,4 @@
-﻿@{
-    Layout = "_WebLayout";
+﻿@using Htmx
+@{
+    Layout = ViewContext.HttpContext.Request.IsHtmx() ? null : "_WebLayout";
 }

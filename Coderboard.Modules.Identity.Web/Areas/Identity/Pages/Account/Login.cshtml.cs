@@ -73,7 +73,10 @@ namespace Coderboard.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+
+                    TempData["JustLoggedIn"] = true;
+
+                    return RedirectToPage("/Protected");
                 }
                 if (result.RequiresTwoFactor)
                 {
